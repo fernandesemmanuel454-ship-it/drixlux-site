@@ -67,7 +67,7 @@ const PRODUCTS=[
     {id:13,cat:'Apéritif',  name:'Aperol',              vol:'1L',     price:29.90,c:'#5C1400',lc:'#FF7800',type:'a'},
     {id:14,cat:'Apéritif',  name:'Ricard Pastis',       vol:'1L',     price:36.90,c:'#3A2400',lc:'#D4A800',type:'a'},
     {id:15,cat:'Apéritif',  name:'Picon Orange',        vol:'70cl',   price:15.90,c:'#4A1800',lc:'#E07820',type:'a'},
-    {id:16,cat:'Champagne', name:'Mumm Cordon Rouge',   vol:'75cl',   price:64.90,c:'#280808',lc:'#E8C840',type:'ch'},
+    {id:16,cat:'Champagne/Crémant', name:'Mumm Cordon Rouge',   vol:'75cl',   price:64.90,c:'#280808',lc:'#E8C840',type:'ch'},
     {id:17,cat:'Soft',      name:'Red Bull 24×25cl',    vol:'Caisse', price:47.90,c:'#0A0A2A',lc:'#4060FF',type:'s'},
     {id:18,cat:'Soft',      name:'Coca-Cola 24×20cl',   vol:'Caisse', price:19.90,c:'#2A0000',lc:'#CC0000',type:'s'},
     {id:19,cat:'Apéritif',  name:'Martini Rosso',       vol:'1L',     price:17.90,c:'#2A0808',lc:'#CC4040',type:'a'},
@@ -82,6 +82,7 @@ const PRODUCTS=[
     {id:28,cat:'Liqueur',   name:'GET 27 Menthe',       vol:'70cl',   price:22.90,c:'#082010',lc:'#40C870',type:'l'},
     {id:29,cat:'Soft',      name:'Schweppes Tonic',     vol:'1.5L',   price:3.90, c:'#1A1808',lc:'#D0C040',type:'s'},
     {id:30,cat:'Gin',       name:'Gin Bombay Dry Gin',  vol:'70cl',   price:24.90,c:'#0A1A2A',lc:'#60B8E8',type:'g'},
+    {id:31,cat:'Champagne/Crémant',name:"Crémant d'Alsace", vol:'75cl',   price:12.90,c:'#1A1408',lc:'#D4C870',type:'ch'},
 ];
 
 const PACKS=[
