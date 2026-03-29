@@ -81,6 +81,7 @@ const PRODUCTS=[
     {id:27,cat:'Liqueur',   name:'Jägermeister',        vol:'70cl',   price:21.90,c:'#081408',lc:'#60A040',type:'l'},
     {id:28,cat:'Liqueur',   name:'GET 27 Menthe',       vol:'70cl',   price:22.90,c:'#082010',lc:'#40C870',type:'l'},
     {id:29,cat:'Soft',      name:'Schweppes Tonic',     vol:'1.5L',   price:3.90, c:'#1A1808',lc:'#D0C040',type:'s'},
+    {id:30,cat:'Gin',       name:'Gin Bombay Dry Gin',  vol:'70cl',   price:24.90,c:'#0A1A2A',lc:'#60B8E8',type:'g'},
 ];
 
 const PACKS=[
