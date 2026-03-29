@@ -76,7 +76,7 @@ const PRODUCTS=[
     {id:22,cat:'Apéritif',  name:'Offley White Port',   vol:'75cl',   price:11.90,c:'#1A1408',lc:'#C8A850',type:'a'},
     {id:23,cat:'Vin',       name:'Pinot Gris Alsace',   vol:'75cl',   price:11.90,c:'#181A08',lc:'#C8C060',type:'vi'},
     {id:24,cat:'Vin',       name:'Mateus Rosé',         vol:'75cl',   price:6.90, c:'#2A0E14',lc:'#D08090',type:'vi'},
-    {id:25,cat:'Vin',       name:'Chusclan Colombier Rouge',vol:'75cl',price:8.90,c:'#2A0808',lc:'#A03030',type:'vi'},
+    {id:25,cat:'Vin',       name:'Château la France',vol:'75cl',price:8.90,c:'#2A0808',lc:'#A03030',type:'vi'},
     {id:26,cat:'Vin',       name:'Quinta Vista Reserva',vol:'75cl',   price:8.90, c:'#200808',lc:'#903030',type:'vi'},
     {id:27,cat:'Liqueur',   name:'Jägermeister',        vol:'70cl',   price:21.90,c:'#081408',lc:'#60A040',type:'l'},
     {id:28,cat:'Liqueur',   name:'GET 27 Menthe',       vol:'70cl',   price:22.90,c:'#082010',lc:'#40C870',type:'l'},
