@@ -311,3 +311,20 @@
             .footer-top{grid-template-columns:1fr}
             .footer-bottom{flex-direction:column;text-align:center}
         }
+
+        /* TOAST */
+        .toast{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%) translateY(120px);z-index:1100;background:var(--bg2);border:1px solid var(--gold);border-radius:14px;padding:1rem 1.4rem;display:flex;flex-direction:column;gap:.7rem;box-shadow:0 10px 40px rgba(0,0,0,.6),0 0 20px rgba(201,162,39,.15);transition:transform .35s ease,opacity .35s ease;max-width:92vw;min-width:320px;opacity:0}
+        .toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+        .toast-text{font-size:.9rem;font-weight:600;color:var(--gold)}
+        .toast-close{background:none;color:var(--cream);font-size:1rem;padding:0;border:none;cursor:pointer;opacity:.5;transition:opacity .2s}
+        .toast-close:hover{opacity:1}
+        .toast-upsell{font-size:.8rem;color:var(--cream);display:flex;flex-direction:column;gap:.5rem;width:100%}
+        .toast-upsell-label{font-size:.82rem;color:var(--gold);font-weight:600}
+        .toast-drink-options{display:flex;flex-wrap:wrap;gap:.4rem}
+        .toast-drink-btn{background:rgba(255,255,255,.06);color:var(--cream);padding:.4rem .8rem;border-radius:8px;font-size:.75rem;font-weight:600;border:1px solid rgba(201,162,39,.2);transition:all .2s;cursor:pointer}
+        .toast-drink-btn:hover{background:var(--gold);color:#000;border-color:var(--gold)}
+        .toast-actions{display:flex;gap:.5rem;margin-top:.3rem}
+        .toast-continue{flex:1;background:transparent;color:var(--cream);padding:.5rem .8rem;border:1px solid rgba(255,255,255,.15);border-radius:8px;font-size:.75rem;font-weight:500;cursor:pointer;transition:all .2s}
+        .toast-continue:hover{border-color:var(--gold);color:var(--gold)}
+        .toast-view-cart{flex:1;background:var(--gold);color:#000;padding:.5rem .8rem;border:none;border-radius:8px;font-size:.75rem;font-weight:600;cursor:pointer;transition:all .2s}
+        .toast-view-cart:hover{background:var(--gold-light)}

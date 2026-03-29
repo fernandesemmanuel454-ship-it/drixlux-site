@@ -237,6 +237,22 @@
     </div>
 </footer>
 
+<!-- TOAST CONFIRMATION -->
+<div class="toast" id="toast">
+    <div style="display:flex;align-items:center;justify-content:space-between;width:100%">
+        <span class="toast-text" id="toastText"></span>
+        <button class="toast-close" onclick="hideToast()">✕</button>
+    </div>
+    <div class="toast-upsell" id="toastUpsell" style="display:none">
+        <span class="toast-upsell-label" id="toastUpsellText"></span>
+        <div class="toast-drink-options" id="toastDrinkOptions"></div>
+    </div>
+    <div class="toast-actions">
+        <button class="toast-continue" onclick="hideToast()">Continuer mes achats</button>
+        <button class="toast-view-cart" onclick="hideToast();openCart()">Voir mon panier →</button>
+    </div>
+</div>
+
 <!-- CART -->
 <div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
 <div class="cart-sidebar" id="cartSidebar">

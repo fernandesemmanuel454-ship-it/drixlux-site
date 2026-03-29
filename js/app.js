@@ -145,6 +145,7 @@ function renderPacks(){
     setTimeout(()=>document.querySelectorAll('.reveal').forEach(el=>observer.observe(el)),80);
 }
 
+let toastTimeout=null;
 function addToCart(id){
     const p=PRODUCTS.find(x=>x.id===id);
     if(!cart[id]) cart[id]={...p,qty:0};
@@ -152,7 +153,7 @@ function addToCart(id){
     updateCartUI();
     const card=document.getElementById('pc-'+id);
     if(card){card.classList.add('just-added');setTimeout(()=>card.classList.remove('just-added'),1500);}
-    openCart();
+    showToast(p);
 }
 function addPack(pid){
     const p=PACKS.find(x=>x.id===pid);
@@ -160,7 +161,76 @@ function addPack(pid){
     const key='pack_'+pid;
     if(!cart[key]) cart[key]={id:key,name:p.name,vol:'Pack',price:p.price,qty:0,cat:'Pack'};
     cart[key].qty++;
-    updateCartUI(); openCart();
+    updateCartUI();
+    showToast({name:p.name,cat:'Pack'});
+}
+/* ── TOAST with smart upsell ── */
+function showToast(product){
+    const toast=document.getElementById('toast');
+    const text=document.getElementById('toastText');
+    const upsellDiv=document.getElementById('toastUpsell');
+    const upsellText=document.getElementById('toastUpsellText');
+    const drinkOptions=document.getElementById('toastDrinkOptions');
+    text.textContent=product.name+' ajouté ✓';
+    upsellDiv.style.display='none';
+    drinkOptions.innerHTML='';
+    // Smart upsell based on product category
+    const cat=(product.cat||'').toLowerCase();
+    if(['whisky','vodka','gin','rhum','liqueur'].includes(cat)){
+        // Suggest softs
+        const softs=[
+            {id:18,name:'Coca-Cola 24×20cl',emoji:'🥤'},
+            {id:17,name:'Red Bull 24×25cl',emoji:'⚡'},
+            {id:29,name:'Schweppes Tonic 1.5L',emoji:'🍋'}
+        ];
+        upsellText.textContent='🥤 Ajouter un soft ?';
+        softs.forEach(s=>{
+            const btn=document.createElement('button');
+            btn.className='toast-drink-btn';
+            btn.textContent=s.emoji+' '+s.name;
+            btn.onclick=()=>{addToCart(s.id);hideToast();};
+            drinkOptions.appendChild(btn);
+        });
+        upsellDiv.style.display='flex';
+    } else if(['champagne','vin','apéritif'].includes(cat)){
+        // Suggest appetizers/snacks
+        upsellText.textContent='🧊 Ajouter un accompagnement ?';
+        const suggestions=[
+            {id:29,name:'Schweppes Tonic 1.5L',emoji:'🍋'},
+            {id:18,name:'Coca-Cola 24×20cl',emoji:'🥤'}
+        ];
+        suggestions.forEach(s=>{
+            const btn=document.createElement('button');
+            btn.className='toast-drink-btn';
+            btn.textContent=s.emoji+' '+s.name;
+            btn.onclick=()=>{addToCart(s.id);hideToast();};
+            drinkOptions.appendChild(btn);
+        });
+        upsellDiv.style.display='flex';
+    } else if(cat==='soft'){
+        // Suggest spirits
+        upsellText.textContent='🍸 Ajouter un spiritueux ?';
+        const spirits=[
+            {id:1,name:"Jack Daniel's",emoji:'🥃'},
+            {id:5,name:'Absolut Vodka',emoji:'🍸'},
+            {id:13,name:'Aperol',emoji:'🍹'}
+        ];
+        spirits.forEach(s=>{
+            const btn=document.createElement('button');
+            btn.className='toast-drink-btn';
+            btn.textContent=s.emoji+' '+s.name;
+            btn.onclick=()=>{addToCart(s.id);hideToast();};
+            drinkOptions.appendChild(btn);
+        });
+        upsellDiv.style.display='flex';
+    }
+    toast.classList.add('show');
+    clearTimeout(toastTimeout);
+    toastTimeout=setTimeout(hideToast,8000);
+}
+function hideToast(){
+    document.getElementById('toast').classList.remove('show');
+    clearTimeout(toastTimeout);
 }
 function changeQty(id,d){
     if(cart[id]){cart[id].qty+=d;if(cart[id].qty<=0)delete cart[id];}
