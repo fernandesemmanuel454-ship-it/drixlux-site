@@ -303,7 +303,30 @@ function initParticles(){
     window.addEventListener('resize',()=>{cv.width=cv.parentElement.offsetWidth;cv.height=cv.parentElement.offsetHeight;});
 }
 
-function enterSite(){const ag=document.getElementById('ageGate');ag.style.transition='opacity .6s';ag.style.opacity='0';setTimeout(()=>{ag.style.display='none';initParticles();initMap();},600);}
+function enterSite(){
+    const ag=document.getElementById('ageGate');
+    ag.style.transition='opacity .6s';ag.style.opacity='0';
+    setTimeout(()=>{
+        ag.style.display='none';
+        initParticles();initMap();
+        // Re-observe all .reveal elements after age gate is gone
+        document.querySelectorAll('.reveal').forEach(el=>{observer.unobserve(el);observer.observe(el);});
+        // Fallback: force-check after a short delay
+        setTimeout(()=>{
+            document.querySelectorAll('.reveal:not(.in)').forEach(el=>{
+                const r=el.getBoundingClientRect();
+                if(r.top<window.innerHeight&&r.bottom>0) el.classList.add('in');
+            });
+        },300);
+    },600);
+}
+// Scroll fallback — catches any .reveal elements the observer misses
+window.addEventListener('scroll',function(){
+    document.querySelectorAll('.reveal:not(.in)').forEach(el=>{
+        const r=el.getBoundingClientRect();
+        if(r.top<window.innerHeight*1.1&&r.bottom>0) el.classList.add('in');
+    });
+},{passive:true});
 
 function goTo(id){document.getElementById(id)?.scrollIntoView({behavior:'smooth'});}
 
