@@ -1,0 +1,29 @@
+{
+  "name": "drix-lux",
+  "version": "1.0.0",
+  "description": "Premium alcohol delivery service in Luxembourg",
+  "main": "index.html",
+  "scripts": {
+    "dev": "vercel dev",
+    "build": "vercel build",
+    "start": "vercel start",
+    "deploy": "vercel"
+  },
+  "keywords": [
+    "alcohol",
+    "delivery",
+    "luxembourg",
+    "premium",
+    "beverages"
+  ],
+  "author": "Emmanuel Fernandes",
+  "license": "UNLICENSED",
+  "private": true,
+  "dependencies": {
+    "stripe": "^14.0.0",
+    "nodemailer": "^6.9.0"
+  },
+  "devDependencies": {
+    "vercel": "^32.0.0"
+  }
+}

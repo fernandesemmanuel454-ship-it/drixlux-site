@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drix Lux — Livraison Alcool Premium · Luxembourg</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Spiritueux, bières et softs premium livrés à domicile en 45 minutes au Luxembourg. Commande en ligne, paiement sécurisé par Stripe.">
+    <meta name="keywords" content="livraison alcool Luxembourg, spiritueux premium, bières, livraison express, Schifflange">
+
+    <!-- Open Graph / Social -->
+    <meta property="og:title" content="Drix Lux — Livraison Alcool Premium · Luxembourg">
+    <meta property="og:description" content="Spiritueux, bières et softs premium livrés en 45 minutes.">
+    <meta property="og:image" content="/img/favicon.ico">
+    <meta property="og:url" content="https://drixlux.lu">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Drix Lux — Livraison Alcool Premium · Luxembourg">
+    <meta name="twitter:description" content="Spiritueux, bières et softs premium livrés en 45 minutes.">
+
+    <!-- Favicon -->
+    <link rel="icon" href="/img/favicon.ico" type="image/x-icon">
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+    <!-- Main Stylesheet -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- AGE GATE -->
+<div class="age-gate" id="ageGate">
+    <div class="ag-logo">Drix Lux</div>
+    <h2>Avez-vous 18 ans ?</h2>
+    <p>Ce site vend des boissons alcoolisées au Luxembourg. Vous devez être majeur pour continuer.</p>
+    <div class="age-btns">
+        <button class="age-yes" onclick="enterSite()">Oui, j'ai 18 ans ou plus</button>
+        <a href="https://www.google.com" class="age-no">Non</a>
+    </div>
+    <p class="age-legal">L'abus d'alcool est dangereux pour la santé. À consommer avec modération.</p>
+</div>
+
+<!-- STATUS BAR -->
+<div id="statusBar"><span id="statusDot"></span><span id="statusText">Vérification horaires…</span></div>
+
+<!-- NAV -->
+<nav>
+    <div class="logo">DRIX <span>LUX</span></div>
+    <div class="nav-right">
+        <div class="cart-pill" id="cartPill" onclick="openCart()">🛒 <span id="cartCountNav">0</span> article<span id="cartPlural"></span></div>
+        <button class="nav-cta" onclick="goTo('catalogue')">Commander →</button>
+    </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-glow"></div>
+    <canvas id="particles"></canvas>
+    <div class="hero-content">
+        <div class="hero-badge">📍 Schifflange · Luxembourg</div>
+        <h1>Ta soirée,<br><em>livrée</em> chez toi</h1>
+        <p class="hero-sub">Spiritueux, bières et softs premium livrés à domicile en 45 minutes. Commande en ligne, paiement sécurisé par carte.</p>
+        <p class="hero-hours">
+            🕗 <strong>Mer – Jeu – Dim</strong> : 20h → 3h<br>
+            🎉 <strong>Ven – Sam</strong> : 20h → 4h
+        </p>
+        <div class="hero-btns">
+            <button class="btn-primary" onclick="goTo('catalogue')">Voir le catalogue</button>
+            <button class="btn-secondary" onclick="goTo('packs')">Pack Spritz 🍹</button>
+        </div>
+    </div>
+    <div class="hero-visual">
+        <div class="bottle-scene">
+            <div class="vapor"><span class="vline"></span><span class="vline"></span><span class="vline"></span></div>
+            <svg class="hero-bottle-svg" viewBox="0 0 120 380" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="hb1" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#1C0800"/><stop offset="30%" stop-color="#6B3200"/><stop offset="55%" stop-color="#8B4513"/><stop offset="80%" stop-color="#4A1A00"/><stop offset="100%" stop-color="#0A0200"/></linearGradient>
+                    <linearGradient id="hb2" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#C9A227" stop-opacity=".06"/><stop offset="50%" stop-color="#E8B830" stop-opacity=".32"/><stop offset="100%" stop-color="#C9A227" stop-opacity=".04"/></linearGradient>
+                    <linearGradient id="hb3" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#C9A227"/><stop offset="100%" stop-color="#8B6A10"/></linearGradient>
+                </defs>
+                <rect x="46" y="2" width="28" height="16" rx="4" fill="url(#hb3)"/>
+                <rect x="43" y="15" width="34" height="7" rx="2" fill="#8B6A10"/>
+                <path d="M50 22 L44 68 L76 68 L70 22 Z" fill="url(#hb1)"/>
+                <path d="M44 68 L24 115 L96 115 L76 68 Z" fill="url(#hb1)" opacity=".9"/>
+                <rect x="18" y="115" width="84" height="228" rx="5" fill="url(#hb1)"/>
+                <rect x="22" y="160" width="76" height="178" rx="3" fill="url(#hb2)"/>
+                <rect x="26" y="120" width="10" height="218" rx="5" fill="white" opacity=".04"/>
+                <rect x="28" y="130" width="4" height="80" rx="2" fill="white" opacity=".07"/>
+                <rect x="28" y="172" width="64" height="100" rx="2" fill="rgba(255,245,200,.05)" stroke="rgba(201,162,39,.3)" stroke-width=".8"/>
+                <text x="60" y="204" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="14" fill="#C9A227" font-weight="600">DRIX</text>
+                <text x="60" y="220" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="9" fill="rgba(240,220,160,.6)" letter-spacing="3">LUX</text>
+                <line x1="34" y1="228" x2="86" y2="228" stroke="rgba(201,162,39,.3)" stroke-width=".5"/>
+                <text x="60" y="244" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="6.5" fill="rgba(240,230,200,.35)" letter-spacing="2">LUXEMBOURG</text>
+                <text x="60" y="256" text-anchor="middle" font-family="DM Sans,sans-serif" font-size="5.5" fill="rgba(240,230,200,.25)" letter-spacing="1">PREMIUM DELIVERY</text>
+                <ellipse cx="60" cy="343" rx="40" ry="5" fill="rgba(80,30,0,.6)"/>
+            </svg>
+            <div class="bottle-shadow"></div>
+        </div>
+    </div>
+</section>
+
+<!-- STATS -->
+<div class="stats">
+    <div class="stat"><span class="stat-num">45<sup>min</sup></span><span class="stat-lbl">Délai max</span></div>
+    <div class="stat"><span class="stat-num">5j/7</span><span class="stat-lbl">Mer – Dim</span></div>
+    <div class="stat"><span class="stat-num">3</span><span class="stat-lbl">Zones couvertes</span></div>
+    <div class="stat"><span class="stat-num" id="closeTimeStat">3h</span><span class="stat-lbl">Fermeture soir</span></div>
+</div>
+
+<!-- STEPS -->
+<div class="section-wrap">
+    <div class="section-header reveal">
+        <span class="section-tag">Simple & Rapide</span>
+        <h2 class="section-title">Comment ça marche ?</h2>
+        <p class="section-sub">Trois étapes, moins de deux minutes.</p>
+    </div>
+    <div class="steps">
+        <div class="step reveal reveal-d1"><span class="step-num">01</span><span class="step-icon">🛒</span><h3>Choisissez vos produits</h3><p>Parcourez le catalogue, ajoutez au panier. Packs disponibles pour économiser.</p></div>
+        <div class="step reveal reveal-d2"><span class="step-num">02</span><span class="step-icon">💳</span><h3>Paiement sécurisé</h3><p>Stripe chiffre votre paiement. Visa, Mastercard, Apple Pay acceptés.</p></div>
+        <div class="step reveal reveal-d3"><span class="step-num">03</span><span class="step-icon">🚗</span><h3>Livraison express</h3><p>SMS de confirmation envoyé. Le livreur vous appelle à l'arrivée.</p></div>
+    </div>
+</div>
+
+<!-- PACKS -->
+<div class="packs-bg" id="packs">
+    <div class="section-wrap">
+        <div class="section-header reveal">
+            <span class="section-tag">Offres spéciales</span>
+            <h2 class="section-title">Packs & Bundles</h2>
+            <p class="section-sub">Économisez sur les combinaisons les plus populaires.</p>
+        </div>
+        <div class="packs-grid" id="packsGrid"></div>
+    </div>
+</div>
+
+<!-- ZONES -->
+<div class="zones-bg" id="zones">
+    <div class="section-wrap">
+        <div class="section-header reveal">
+            <span class="section-tag">Zones de livraison</span>
+            <h2 class="section-title">On livre près de chez vous ?</h2>
+            <p class="section-sub">Trois zones, trois tarifs.</p>
+        </div>
+        <div class="zones-layout reveal">
+            <div id="map"></div>
+            <div class="zones-list">
+                <div class="zone-card z1"><h3>🟢 Zone 1 — 0 à 2 km</h3><div class="cities">Schifflange, Foetz, Bettembourg Nord</div><div class="zone-pills"><span class="pill">Min. 25€</span><span class="pill">+4,90€ livraison</span><span class="pill">≈ 20 min</span></div></div>
+                <div class="zone-card z2"><h3>🟡 Zone 2 — 2 à 5 km</h3><div class="cities">Esch-sur-Alzette, Mondercange, Bettembourg, Sanem, Leudelange, Hesperange</div><div class="zone-pills"><span class="pill">Min. 35€</span><span class="pill">+9,90€ livraison</span><span class="pill">≈ 35 min</span></div></div>
+                <div class="zone-card z3"><h3>🔴 Zone 3 — 5 à 10 km</h3><div class="cities">Dudelange, Rumelange, Kayl, Tetange, Pétange, Differdange</div><div class="zone-pills"><span class="pill">Min. 65€</span><span class="pill">+14,90€ livraison</span><span class="pill">≈ 45 min</span></div></div>
+            </div>
+            <p style="text-align:center;margin-top:1.5rem;color:rgba(240,230,200,.55);font-size:.82rem;font-weight:400;line-height:1.6">📦 Livraison déposée en bas de l'immeuble ou devant la porte d'entrée.<br>Le livreur ne monte pas les étages et n'entre pas dans le domicile.</p>
+        </div>
+    </div>
+</div>
+
+<!-- CATALOGUE -->
+<div id="catalogue">
+    <div class="section-wrap">
+        <div class="section-header reveal">
+            <span class="section-tag">Notre sélection</span>
+            <h2 class="section-title">Catalogue Drix Lux</h2>
+            <p class="section-sub">Spiritueux premium, bières et softs en livraison express.</p>
+        </div>
+        <div class="cat-filters" id="catFilters"></div>
+        <div class="products-grid" id="productsGrid"></div>
+    </div>
+</div>
+
+<!-- SOCIAL -->
+<div class="social-bg" id="social">
+    <div class="section-wrap">
+        <div class="section-header reveal" style="text-align:center">
+            <span class="section-tag" style="display:block">Rejoins la communauté</span>
+            <h2 class="section-title" style="text-align:center">Suivez Drix Lux</h2>
+            <p class="section-sub" style="max-width:420px;margin:1rem auto 0">Promos exclusives, nouveautés et contenus en avant-première.</p>
+        </div>
+        <div class="social-grid reveal">
+            <a class="social-card" href="https://instagram.com/drixlux" target="_blank">
+                <span class="social-icon">📸</span>
+                <div class="social-name">Instagram</div>
+                <div class="social-handle">@drixlux</div>
+                <div class="social-desc">Photos, stories, promos exclusives. Concours et nouvelles références en avant-première.</div>
+            </a>
+            <a class="social-card" href="https://tiktok.com/@drixlux" target="_blank">
+                <span class="social-icon">🎵</span>
+                <div class="social-name">TikTok</div>
+                <div class="social-handle">@drixlux</div>
+                <div class="social-desc">Recettes cocktails à faire avec nos produits. Ambiances soirées et coulisses Drix Lux.</div>
+            </a>
+            <a class="social-card" href="https://wa.me/352661474130" target="_blank">
+                <span class="social-icon">💬</span>
+                <div class="social-name">WhatsApp</div>
+                <div class="social-handle">+352 661 47 41 30</div>
+                <div class="social-desc">Un produit spécial ? Une question ? Contactez-nous directement en message.</div>
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-inner">
+        <div class="footer-top">
+            <div>
+                <div class="footer-logo">DRIX LUX</div>
+                <div class="footer-tagline">Livraison alcool premium · Luxembourg</div>
+                <div class="footer-hours">
+                    <strong>Mer – Jeu – Dim</strong>  20h – 3h<br>
+                    <strong>Ven – Sam</strong>  20h – 4h<br>
+                    <span style="color:rgba(240,230,200,.25)">Lun – Mar  Fermé</span>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Navigation</h4>
+                <a href="#" onclick="goTo('catalogue');return false">Catalogue</a>
+                <a href="#" onclick="goTo('packs');return false">Packs & Bundles</a>
+                <a href="#" onclick="goTo('zones');return false">Zones de livraison</a>
+                <a href="#" onclick="goTo('social');return false">Nos réseaux</a>
+            </div>
+            <div class="footer-col">
+                <h4>Légal & Contact</h4>
+                <a href="/mentions-legales">Mentions légales</a>
+                <a href="/cgv">CGV</a>
+                <a href="/confidentialite">Confidentialité</a>
+                <a href="tel:+352661474130">📞 +352 661 47 41 30</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="footer-legal">L'abus d'alcool est dangereux pour la santé. À consommer avec modération. Vente interdite aux mineurs de moins de 18 ans.<br>© 2026 Drix Lux · Schifflange, Luxembourg.</div>
+            <div style="font-size:.72rem;color:rgba(240,230,200,.22)">🔒 Paiements sécurisés par Stripe</div>
+        </div>
+    </div>
+</footer>
+
+<!-- CART -->
+<div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
+<div class="cart-sidebar" id="cartSidebar">
+    <div class="cart-head"><h3>Mon panier</h3><button class="cart-close" onclick="closeCart()">✕</button></div>
+    <div class="cart-progress" id="cartProgress">
+        <div class="cp-text" id="cpText"></div>
+        <div class="cp-bar"><div class="cp-fill" id="cpFill"></div></div>
+    </div>
+    <div class="cart-items-wrap" id="cartItemsWrap"><div class="cart-empty">Votre panier est vide<span style="font-size:2rem;display:block;margin-top:1rem">🍾</span></div></div>
+    <div class="cart-foot">
+        <div class="cart-subtotal"><span class="cs-lbl">Sous-total</span><span class="cs-val" id="cartSubtotalDisplay">0,00 €</span></div>
+        <span class="zone-sel-lbl">Votre zone de livraison</span>
+        <select class="zone-sel" id="zoneSelect" onchange="recalc()">
+            <option value="">— Sélectionner une zone —</option>
+            <option value="1">Zone 1 — 0-2 km (min. 25€ · +4,90€)</option>
+            <option value="2">Zone 2 — 2-5 km (min. 35€ · +9,90€)</option>
+            <option value="3">Zone 3 — 5-10 km (min. 65€ · +14,90€)</option>
+        </select>
+        <div class="warn" id="cartWarn"></div>
+        <div class="fee-info" id="cartFeeInfo"></div>
+        <button class="checkout-btn" id="checkoutBtn" onclick="openCheckout()" disabled>Payer par carte →</button>
+        <p class="cart-security">🔒 Stripe SSL · Paiement 100% sécurisé</p>
+    </div>
+</div>
+
+<!-- CHECKOUT MODAL -->
+<div class="modal-bg" id="checkoutModal">
+    <div class="modal">
+        <button class="modal-close" onclick="closeCheckout()">✕</button>
+        <h3>Finaliser la commande</h3>
+        <p style="background:rgba(201,162,39,.08);border:1px solid rgba(201,162,39,.2);border-radius:6px;padding:.7rem 1rem;font-size:.78rem;color:rgba(240,230,200,.7);margin-bottom:1rem;line-height:1.5">📦 La commande est déposée en bas de l'immeuble ou devant votre porte. Le livreur ne monte pas les étages.</p>
+        <div class="frow"><label>Prénom & Nom *</label><input type="text" id="fName" placeholder="Jean Dupont"/></div>
+        <div class="frow"><label>Téléphone * (pour le livreur)</label><input type="tel" id="fPhone" placeholder="+352 661 000 000"/></div>
+        <div class="frow"><label>Adresse complète *</label><input type="text" id="fAddress" placeholder="15 Rue Aloyse Kayser, 3852 Schifflange"/></div>
+        <div class="frow"><label>Email * (pour la confirmation)</label><input type="email" id="fEmail" placeholder="mon@email.lu" required/></div>
+        <div class="frow"><label>Note pour le livreur</label><textarea id="fNote" placeholder="Code porte, interphone, précision d'adresse…"></textarea></div>
+        <div class="order-recap"><span class="recap-lbl">Récapitulatif</span><div id="recapLines"></div></div>
+        <div id="orderError" style="display:none;background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);color:#fca5a5;padding:.8rem;font-size:.82rem;margin-bottom:1rem;border-radius:4px"></div>
+        <button class="submit-btn" id="submitBtn" onclick="processOrder()">
+            <span>🔒</span><span>Payer par carte — <span id="finalAmt">0,00 €</span></span>
+        </button>
+        <p class="modal-legal">Vous serez redirigé vers Stripe pour le paiement sécurisé · Visa, Mastercard, Apple Pay</p>
+    </div>
+</div>
+
+<!-- SUCCESS MODAL -->
+<div class="modal-bg" id="successModal">
+    <div class="modal">
+        <div class="success-content">
+            <div class="success-ring">✓</div>
+            <h3>Commande confirmée !</h3>
+            <p>Merci ! Un <strong style="color:var(--cream)">SMS de confirmation</strong> vous sera envoyé sous peu.</p>
+            <p>🚗 Votre livraison arrive dans <strong style="color:var(--cream)">45 minutes maximum</strong>. Le livreur vous appellera avant d'arriver.</p>
+            <button class="btn-primary" style="margin-top:1.8rem;width:100%" onclick="closeSuccess()">Super, j'attends ! 🍾</button>
+        </div>
+    </div>
+</div>
+
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<!-- Stripe JS -->
+<script src="https://js.stripe.com/v3/"></script>
+
+<!-- Main App Script -->
+<script src="js/app.js"></script>
+
+</body>
+</html>

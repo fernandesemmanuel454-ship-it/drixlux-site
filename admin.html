@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Drix Lux — Gestion du stock</title>
+<meta name="robots" content="noindex, nofollow">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0a0a14;color:#f0e6c8;min-height:100vh}
+  .login-wrap{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px}
+  .login-box{background:#12121e;border:1px solid rgba(201,162,39,.3);border-radius:12px;padding:40px;max-width:360px;width:100%;text-align:center}
+  .login-box h1{color:#C9A227;font-size:1.6rem;margin-bottom:8px}
+  .login-box p{color:rgba(240,230,200,.5);font-size:.85rem;margin-bottom:24px}
+  .login-box input{width:100%;padding:12px 16px;border:1px solid rgba(201,162,39,.3);border-radius:8px;background:#0a0a14;color:#f0e6c8;font-size:1rem;margin-bottom:16px;outline:none}
+  .login-box input:focus{border-color:#C9A227}
+  .login-box button{width:100%;padding:12px;border:none;border-radius:8px;background:#C9A227;color:#0a0a14;font-size:1rem;font-weight:700;cursor:pointer}
+  .login-box button:hover{background:#d4ad2e}
+  .login-error{color:#ff4444;font-size:.85rem;margin-top:8px;display:none}
+  .admin-wrap{display:none;max-width:700px;margin:0 auto;padding:20px 16px 120px}
+  .admin-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid rgba(201,162,39,.2)}
+  .admin-header h1{color:#C9A227;font-size:1.4rem}
+  .site-badge{background:rgba(201,162,39,.15);color:#C9A227;padding:4px 12px;border-radius:20px;font-size:.75rem;font-weight:600}
+  .btn-logout{background:none;border:1px solid rgba(201,162,39,.3);color:#C9A227;padding:6px 14px;border-radius:6px;cursor:pointer;font-size:.8rem}
+  .btn-logout:hover{background:rgba(201,162,39,.1)}
+  .bulk-actions{display:flex;gap:8px;margin-bottom:20px}
+  .bulk-btn{flex:1;padding:10px;border:1px solid rgba(201,162,39,.3);border-radius:8px;background:transparent;color:#f0e6c8;font-size:.85rem;cursor:pointer;font-weight:500}
+  .bulk-btn:hover{background:rgba(201,162,39,.1)}
+  .bulk-btn.on{border-color:#22c55e;color:#22c55e}
+  .bulk-btn.off{border-color:#ef4444;color:#ef4444}
+  .category{margin-bottom:24px}
+  .cat-title{font-size:1rem;font-weight:700;color:#C9A227;margin-bottom:10px;padding:8px 0;border-bottom:1px solid rgba(201,162,39,.15)}
+  .product-row{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;margin-bottom:6px;background:#12121e;border:1px solid rgba(201,162,39,.12);border-radius:8px;transition:all .2s}
+  .product-row.off{opacity:.45;border-color:rgba(239,68,68,.4);background:rgba(239,68,68,.05)}
+  .product-info{flex:1}
+  .product-name{font-weight:600;font-size:.95rem}
+  .product-vol{color:rgba(240,230,200,.4);font-size:.8rem;margin-top:2px}
+  .product-price{color:#C9A227;font-weight:600;font-size:.9rem;margin-right:16px}
+  .stock-label{font-size:.7rem;font-weight:700;padding:3px 8px;border-radius:4px;margin-right:12px;min-width:68px;text-align:center}
+  .stock-label.on{background:rgba(34,197,94,.15);color:#22c55e}
+  .stock-label.off{background:rgba(239,68,68,.15);color:#ef4444}
+  .toggle{position:relative;width:48px;height:26px;flex-shrink:0}
+  .toggle input{opacity:0;width:0;height:0}
+  .toggle .slider{position:absolute;inset:0;background:#333;border-radius:26px;cursor:pointer;transition:.2s}
+  .toggle .slider:before{content:'';position:absolute;height:20px;width:20px;left:3px;bottom:3px;background:#888;border-radius:50%;transition:.2s}
+  .toggle input:checked+.slider{background:rgba(34,197,94,.3)}
+  .toggle input:checked+.slider:before{transform:translateX(22px);background:#22c55e}
+  .save-bar{position:fixed;bottom:0;left:0;right:0;background:#12121e;border-top:2px solid #C9A227;padding:16px;display:none;z-index:100}
+  .save-bar-inner{max-width:700px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .save-bar .info{color:rgba(240,230,200,.6);font-size:.85rem}
+  .save-btn{padding:12px 32px;border:none;border-radius:8px;background:#C9A227;color:#0a0a14;font-size:1rem;font-weight:700;cursor:pointer}
+  .save-btn:hover{background:#d4ad2e}
+  .save-btn:disabled{opacity:.5;cursor:not-allowed}
+  .toast{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#22c55e;color:#fff;padding:12px 24px;border-radius:8px;font-weight:600;display:none;z-index:200;font-size:.9rem}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div class="login-wrap" id="loginScreen">
+  <div class="login-box">
+    <h1>Admin Drix Lux</h1>
+    <p>Gestion du stock &mdash; ON/OFF par produit</p>
+    <input type="password" id="pwdInput" placeholder="Mot de passe" autofocus>
+    <button onclick="doLogin()">Connexion</button>
+    <div class="login-error" id="loginError">Mot de passe incorrect</div>
+  </div>
+</div>
+
+<!-- ADMIN PANEL -->
+<div class="admin-wrap" id="adminPanel">
+  <div class="admin-header">
+    <div>
+      <h1>Gestion du stock</h1>
+      <span class="site-badge">drixlux.lu</span>
+    </div>
+    <button class="btn-logout" onclick="logout()">D&eacute;connexion</button>
+  </div>
+
+  <div class="bulk-actions">
+    <button class="bulk-btn on" onclick="setAll(true)">&#10003; Tout activer</button>
+    <button class="bulk-btn off" onclick="setAll(false)">&#10007; Tout d&eacute;sactiver</button>
+  </div>
+
+  <div id="productList"></div>
+</div>
+
+<!-- SAVE BAR -->
+<div class="save-bar" id="saveBar">
+  <div class="save-bar-inner">
+    <span class="info" id="changeCount">0 modification(s)</span>
+    <button class="save-btn" id="saveBtn" onclick="saveStock()">Enregistrer</button>
+  </div>
+</div>
+
+<div class="toast" id="toast">Stock mis &agrave; jour !</div>
+
+<script>
+const API_BASE = '/api/stock';
+const PRODUCTS = [
+  {id:'1',  cat:'Whisky',     name:"Jack Daniel's",       vol:'70cl',  price:'30,90'},
+  {id:'2',  cat:'Whisky',     name:"Ballantine's",        vol:'1L',    price:'34,90'},
+  {id:'3',  cat:'Whisky',     name:'Label 5',             vol:'70cl',  price:'20,90'},
+  {id:'4',  cat:'Vodka',      name:'Grey Goose',          vol:'70cl',  price:'49,90'},
+  {id:'5',  cat:'Vodka',      name:'Absolut',             vol:'1L',    price:'31,90'},
+  {id:'6',  cat:'Vodka',      name:'Eristoff White',      vol:'70cl',  price:'36,90'},
+  {id:'7',  cat:'Gin',        name:'Tanqueray',           vol:'70cl',  price:'33,90'},
+  {id:'8',  cat:'Gin',        name:"Hendrick's",          vol:'70cl',  price:'45,90'},
+  {id:'9',  cat:'Gin',        name:'Bulldog London Dry',  vol:'1L',    price:'31,90'},
+  {id:'10', cat:'Rhum',       name:'Bumbu Rhum',          vol:'70cl',  price:'43,90'},
+  {id:'11', cat:'Rhum',       name:'Don Papa',            vol:'70cl',  price:'49,90'},
+  {id:'12', cat:'Rhum',       name:'Captain Morgan Gold', vol:'70cl',  price:'17,90'},
+  {id:'13', cat:'Ap\u00e9ritif', name:'Aperol',           vol:'1L',    price:'29,90'},
+  {id:'14', cat:'Ap\u00e9ritif', name:'Ricard Pastis',    vol:'1L',    price:'36,90'},
+  {id:'15', cat:'Ap\u00e9ritif', name:'Picon Orange',     vol:'70cl',  price:'15,90'},
+  {id:'16', cat:'Champagne',  name:'Mumm Cordon Rouge',   vol:'75cl',  price:'64,90'},
+  {id:'17', cat:'Soft',       name:'Red Bull 24\u00d725cl',vol:'Caisse',price:'47,90'},
+  {id:'18', cat:'Soft',       name:'Coca-Cola 24\u00d720cl',vol:'Caisse',price:'19,90'},
+  {id:'19', cat:'Ap\u00e9ritif', name:'Martini Rosso',       vol:'1L',    price:'17,90'},
+  {id:'20', cat:'Ap\u00e9ritif', name:'Martini Bianco',      vol:'1L',    price:'13,90'},
+  {id:'21', cat:'Ap\u00e9ritif', name:'Calem Porto Tawny',   vol:'75cl',  price:'10,90'},
+  {id:'22', cat:'Ap\u00e9ritif', name:'Offley White Port',   vol:'75cl',  price:'11,90'},
+  {id:'23', cat:'Vin',          name:'Pinot Gris Alsace',    vol:'75cl',  price:'11,90'},
+  {id:'24', cat:'Vin',          name:'Mateus Ros\u00e9',     vol:'75cl',  price:'6,90'},
+  {id:'25', cat:'Vin',          name:'Chusclan Colombier Rouge',vol:'75cl',price:'8,90'},
+  {id:'26', cat:'Vin',          name:'Quinta Vista Reserva', vol:'75cl',  price:'8,90'},
+  {id:'27', cat:'Liqueur',      name:'J\u00e4germeister',    vol:'70cl',  price:'21,90'},
+  {id:'28', cat:'Liqueur',      name:'GET 27 Menthe',        vol:'70cl',  price:'22,90'},
+  {id:'29', cat:'Soft',         name:'Schweppes Tonic',      vol:'1.5L',  price:'3,90'},
+];
+
+let stock = {};
+let savedStock = {};
+let password = '';
+
+async function doLogin() {
+  password = document.getElementById('pwdInput').value;
+  try {
+    const res = await fetch(API_BASE);
+    if (!res.ok) throw new Error();
+    stock = await res.json();
+    // Ensure all products have a stock entry
+    PRODUCTS.forEach(p => { if (stock[p.id] === undefined) stock[p.id] = true; });
+    savedStock = JSON.parse(JSON.stringify(stock));
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('adminPanel').style.display = 'block';
+    renderProducts();
+  } catch(e) {
+    // If stock API fails, still try to verify password with a POST
+    try {
+      const test = await fetch(API_BASE, {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({ password, stock: {} })
+      });
+      if (test.status === 401) {
+        document.getElementById('loginError').style.display = 'block';
+        return;
+      }
+    } catch(e2) {}
+    // Default: show all as available
+    PRODUCTS.forEach(p => { stock[p.id] = true; });
+    savedStock = JSON.parse(JSON.stringify(stock));
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('adminPanel').style.display = 'block';
+    renderProducts();
+  }
+}
+
+document.getElementById('pwdInput').addEventListener('keydown', e => { if(e.key==='Enter') doLogin(); });
+
+function logout() {
+  password = '';
+  stock = {};
+  savedStock = {};
+  document.getElementById('adminPanel').style.display = 'none';
+  document.getElementById('saveBar').style.display = 'none';
+  document.getElementById('loginScreen').style.display = 'flex';
+  document.getElementById('pwdInput').value = '';
+  document.getElementById('productList').innerHTML = '';
+}
+
+function renderProducts() {
+  const cats = [...new Set(PRODUCTS.map(p => p.cat))];
+  let html = '';
+  cats.forEach(cat => {
+    html += `<div class="category"><div class="cat-title">${cat}</div>`;
+    PRODUCTS.filter(p => p.cat === cat).forEach(p => {
+      const on = stock[p.id] !== false;
+      html += `
+        <div class="product-row ${on?'':'off'}" id="row-${p.id}">
+          <div class="product-info">
+            <div class="product-name">${p.name}</div>
+            <div class="product-vol">${p.vol}</div>
+          </div>
+          <div class="product-price">${p.price}&euro;</div>
+          <span class="stock-label ${on?'on':'off'}" id="label-${p.id}">${on?'EN STOCK':'&Eacute;PUIS&Eacute;'}</span>
+          <label class="toggle">
+            <input type="checkbox" ${on?'checked':''} onchange="toggleProduct('${p.id}', this.checked)">
+            <span class="slider"></span>
+          </label>
+        </div>`;
+    });
+    html += '</div>';
+  });
+  document.getElementById('productList').innerHTML = html;
+}
+
+function toggleProduct(id, on) {
+  stock[id] = on;
+  const row = document.getElementById('row-' + id);
+  const label = document.getElementById('label-' + id);
+  row.className = 'product-row' + (on ? '' : ' off');
+  label.className = 'stock-label ' + (on ? 'on' : 'off');
+  label.innerHTML = on ? 'EN STOCK' : '&Eacute;PUIS&Eacute;';
+  checkChanges();
+}
+
+function setAll(val) {
+  PRODUCTS.forEach(p => {
+    stock[p.id] = val;
+    const cb = document.querySelector(`#row-${p.id} input[type=checkbox]`);
+    if (cb) cb.checked = val;
+  });
+  renderProducts();
+  // Re-check all checkboxes
+  PRODUCTS.forEach(p => {
+    const cb = document.querySelector(`#row-${p.id} input[type=checkbox]`);
+    if (cb) cb.checked = val;
+  });
+  checkChanges();
+}
+
+function checkChanges() {
+  let changes = 0;
+  PRODUCTS.forEach(p => {
+    if (stock[p.id] !== savedStock[p.id]) changes++;
+  });
+  const bar = document.getElementById('saveBar');
+  if (changes > 0) {
+    bar.style.display = 'block';
+    document.getElementById('changeCount').textContent = changes + ' modification(s)';
+  } else {
+    bar.style.display = 'none';
+  }
+}
+
+async function saveStock() {
+  const btn = document.getElementById('saveBtn');
+  btn.disabled = true;
+  btn.textContent = 'Enregistrement...';
+  try {
+    const res = await fetch(API_BASE, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ password, stock })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Erreur');
+    savedStock = JSON.parse(JSON.stringify(stock));
+    document.getElementById('saveBar').style.display = 'none';
+    const toast = document.getElementById('toast');
+    toast.style.display = 'block';
+    setTimeout(() => { toast.style.display = 'none'; }, 2500);
+  } catch(err) {
+    alert('Erreur: ' + err.message);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Enregistrer';
+  }
+}
+</script>
+</body>
+</html>
