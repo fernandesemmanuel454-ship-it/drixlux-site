@@ -7,7 +7,7 @@ const STRIPE_PK = 'pk_live_51PJa2p03wJRtI4Rfas1lRwewqWWIJOXbJuHxeowt4P3JJuWXMu4y
 // (Netlify Function gratuite) — je t'explique tout dans le prochain message.
 
 // ============================================================
-// HORAIRES
+// HORAIRE
 // Jours : 0=Dim 1=Lun 2=Mar 3=Mer 4=Jeu 5=Ven 6=Sam
 // ============================================================
 const SCHEDULE = {
@@ -68,8 +68,8 @@ const PRODUCTS=[
     {id:14,cat:'Apéritif',  name:'Ricard Pastis',       vol:'1L',     price:36.90,c:'#3A2400',lc:'#D4A800',type:'a'},
     {id:15,cat:'Apéritif',  name:'Picon Orange',        vol:'70cl',   price:15.90,c:'#4A1800',lc:'#E07820',type:'a'},
     {id:16,cat:'Champagne/Crémant', name:'Mumm Cordon Rouge',   vol:'75cl',   price:64.90,c:'#280808',lc:'#E8C840',type:'ch'},
-    {id:17,cat:'Soft',      name:'Red Bull 24×25cl',    vol:'Caisse', price:47.90,c:'#0A0A2A',lc:'#4060FF',type:'s'},
-    {id:18,cat:'Soft',      name:'Coca-Cola 24×20cl',   vol:'Caisse', price:19.90,c:'#2A0000',lc:'#CC0000',type:'s'},
+    {id:17,cat:'Soft',      name:'Red Bull',             vol:'25cl',   price:4.50, c:'#0A0A2A',lc:'#4060FF',type:'s'},
+    {id:18,cat:'Soft',      name:'Coca-Cola',            vol:'1.5L',   price:3.90, c:'#2A0000',lc:'#CC0000',type:'s'},
     {id:19,cat:'Apéritif',  name:'Martini Rosso',       vol:'1L',     price:17.90,c:'#2A0808',lc:'#CC4040',type:'a'},
     {id:20,cat:'Apéritif',  name:'Martini Bianco',      vol:'1L',     price:13.90,c:'#141420',lc:'#D0D0E0',type:'a'},
     {id:21,cat:'Apéritif',  name:'Calem Porto Tawny',   vol:'75cl',   price:10.90,c:'#2A0E0E',lc:'#B04040',type:'a'},
@@ -83,6 +83,7 @@ const PRODUCTS=[
     {id:29,cat:'Soft',      name:'Schweppes Tonic',     vol:'1.5L',   price:3.90, c:'#1A1808',lc:'#D0C040',type:'s'},
     {id:30,cat:'Gin',       name:'Gin Bombay Dry Gin',  vol:'70cl',   price:24.90,c:'#0A1A2A',lc:'#60B8E8',type:'g'},
     {id:31,cat:'Champagne/Crémant',name:"Crémant d'Alsace", vol:'75cl',   price:12.90,c:'#1A1408',lc:'#D4C870',type:'ch'},
+    {id:32,cat:'Soft',      name:'Fanta Orange',         vol:'1.5L',   price:3.90, c:'#2A1400',lc:'#FF8C00',type:'s'},
 ];
 
 const PACKS=[
@@ -181,9 +182,10 @@ function showToast(product){
     if(['whisky','vodka','gin','rhum','liqueur'].includes(cat)){
         // Suggest softs
         const softs=[
-            {id:18,name:'Coca-Cola 24×20cl',emoji:'🥤'},
-            {id:17,name:'Red Bull 24×25cl',emoji:'⚡'},
-            {id:29,name:'Schweppes Tonic 1.5L',emoji:'🍋'}
+            {id:18,name:'Coca-Cola 1.5L',emoji:'🥤'},
+            {id:17,name:'Red Bull 25cl',emoji:'⚡'},
+            {id:29,name:'Schweppes Tonic 1.5L',emoji:'🍋'},
+            {id:32,name:'Fanta Orange 1.5L',emoji:'🍊'}
         ];
         upsellText.textContent='🥤 Ajouter un soft ?';
         softs.forEach(s=>{
@@ -199,7 +201,7 @@ function showToast(product){
         upsellText.textContent='🧊 Ajouter un accompagnement ?';
         const suggestions=[
             {id:29,name:'Schweppes Tonic 1.5L',emoji:'🍋'},
-            {id:18,name:'Coca-Cola 24×20cl',emoji:'🥤'}
+            {id:18,name:'Coca-Cola 1.5L',emoji:'🥤'}
         ];
         suggestions.forEach(s=>{
             const btn=document.createElement('button');
