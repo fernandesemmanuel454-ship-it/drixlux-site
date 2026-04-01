@@ -34,6 +34,18 @@ module.exports = async (req, res) => {
       return res.status(400).json({ error: 'Données stock invalides' });
     }
     try {
+      // Récupérer le stock actuel depuis Edge Config
+      const currentResp = await fetch(
+        `https://edge-config.vercel.com/${EC_ID}/item/${STOCK_KEY}?token=${EC_TOKEN}`
+      );
+      const currentStock = currentResp.ok ? await currentResp.json() : {};
+
+      // Fusionner avec les nouvelles valeurs
+      const updatedStock = {
+        ...(currentStock || {}),
+        ...stock
+      };
+
       const resp = await fetch(
         `https://api.vercel.com/v1/edge-config/${EC_ID}/items?teamId=fernandesemmanuel454-4322s-projects`,
         {
@@ -43,7 +55,7 @@ module.exports = async (req, res) => {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            items: [{ operation: 'upsert', key: STOCK_KEY, value: stock }],
+            items: [{ operation: 'upsert', key: STOCK_KEY, value: updatedStock }],
           }),
         }
       );
