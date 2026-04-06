@@ -1,22 +1,17 @@
 {
   "version": 2,
-  "routes": [
+  "rewrites": [
     {
-      "src": "^/maintenance.html$",
-      "dest": "/maintenance.html"
+      "source": "/mentions-legales",
+      "destination": "/pages/mentions-legales.html"
     },
     {
-      "src": "^/img/(.*)",
-      "dest": "/img/$1"
+      "source": "/cgv",
+      "destination": "/pages/cgv.html"
     },
     {
-      "src": "^/css/(.*)",
-      "dest": "/css/$1"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/maintenance.html",
-      "status": 200
+      "source": "/confidentialite",
+      "destination": "/pages/confidentialite.html"
     }
   ],
   "headers": [
