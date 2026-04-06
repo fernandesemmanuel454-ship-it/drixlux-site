@@ -12,10 +12,10 @@ const STRIPE_PK = 'pk_live_51PJa2p03wJRtI4Rfas1lRwewqWWIJOXbJuHxeowt4P3JJuWXMu4y
 // ============================================================
 const SCHEDULE = {
     0:{open:20,close:3},   // Dim
-    3:{open:20,close:3},   // Mer
+    3:{open:20,close:2},   // Mer
     4:{open:20,close:3},   // Jeu
     5:{open:20,close:4},   // Ven
-    6:{open:20,close:4},   // Sam
+    6:{open:20,close:3},   // Sam
 };
 const DAY_FR = ['dimanche','lundi','mardi','mercredi','jeudi','vendredi','samedi'];
 
