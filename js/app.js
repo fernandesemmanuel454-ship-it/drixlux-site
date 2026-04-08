@@ -288,7 +288,7 @@ function recalc(){
 function openCart(){document.getElementById('cartOverlay').classList.add('open');document.getElementById('cartSidebar').classList.add('open');document.body.style.overflow='hidden';}
 function closeCart(){document.getElementById('cartOverlay').classList.remove('open');document.getElementById('cartSidebar').classList.remove('open');document.body.style.overflow='';}
 
-function openCheckout(){alert('tap ok');
+function openCheckout(){
     const items=Object.values(cart).filter(i=>i.qty>0);
     const sub=items.reduce((s,i)=>s+i.price*i.qty,0);
     const zone=document.getElementById('zoneSelect').value;
