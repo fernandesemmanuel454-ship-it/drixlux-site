@@ -298,7 +298,7 @@ function openCheckout(){
         `<div class="recap-line"><span style="opacity:.5">Livraison Zone ${zone}</span><span style="opacity:.5">${fmt(fr)}</span></div><div class="recap-total"><span>TOTAL TTC</span><span>${fmt(total)}</span></div>`;
     document.getElementById('finalAmt').textContent=fmt(total);
     const sn=document.getElementById('stripeSetupNote');if(sn)sn.style.display='none';
-    document.getElementById('checkoutModal').classList.add('open');
+    closeCart();document.getElementById('checkoutModal').classList.add('open');
 }
 function closeCheckout(){document.getElementById('checkoutModal').classList.remove('open');}
 
