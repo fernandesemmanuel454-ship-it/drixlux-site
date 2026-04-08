@@ -47,7 +47,7 @@ module.exports = async (req, res) => {
       };
 
       const resp = await fetch(
-        `https://api.vercel.com/v1/edge-config/${EC_ID}/items?teamId=fernandesemmanuel454-4322s-projects`,
+        `https://api.vercel.com/v1/edge-config/${EC_ID}/items?teamId=team_6QSi7u1H5ZgGlxYMERvPhjns`,
         {
           method: 'PATCH',
           headers: {
